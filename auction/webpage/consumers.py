@@ -1,5 +1,7 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.db import database_sync_to_async
+from .submodels.log import Log
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -12,7 +14,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                            self.channel_name)
         await self.accept()
 
-    async def disconnect(self, close_code):
+    async def disconnect(self, _):
         await self.channel_layer.group_discard(self.room_group_name,
                                                self.channel_name)
 
@@ -27,3 +29,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         message = event["message"]
         await self.send(text_data=json.dumps({'message': message}))
+        await database_sync_to_async(self.addLog)(message)
+
+    def addLog(self, message):
+        log = Log(room_name=self.room_name, message=message)
+        log.save()
