@@ -1,0 +1,15 @@
+{% extends 'webpage/includes/base.html' %}
+{% load static %}
+{% block title %}Hjem{% endblock title %}
+{% block head %}
+<script src="{% static 'webpage/javascript/index.js' %}" defer></script>
+{% endblock %}
+{% block content %}
+<input type="hidden" value="hjem" id="active">
+<div class="container mb-5 mt-3 w-50">
+    What chat room would you like to enter?<br>
+    <input id="room-name-input" type="text" size="100"><br>
+    <input id="room-name-submit" type="button" value="Enter">
+</div>
+
+{% endblock content %}
