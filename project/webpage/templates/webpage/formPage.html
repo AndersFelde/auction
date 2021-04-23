@@ -1,0 +1,16 @@
+{% extends 'webpage/includes/base.html' %}
+{% block title %}Form Page{% endblock title %}
+{% block content %}
+<input type="hidden" value="formPage" id="active">
+<div class="container mb-3 mt-3 w-50">
+    {% if inputs %}
+    <p>
+        {% for input in inputs %}
+        {{ input }}<br>
+        {% endfor %}
+    </p>
+    {% endif %}
+    {% include "webpage/includes/form.html" %}
+</div>
+
+{% endblock content %}

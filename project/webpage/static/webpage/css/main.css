@@ -1,0 +1,70 @@
+.navbar {
+    display: inline-block;
+    float: none;
+    vertical-align: top;
+    text-align: center;
+    width: 100%;
+    background-color: black;
+}
+
+.navbar .collapse {
+    text-align: center;
+    width: 100%;
+}
+
+.navbar .list-inline {
+    width: 100%;
+    margin-bottom: 0px;
+}
+
+.navbar .nav-link {
+    color: gray;
+}
+
+.navbar a:hover {
+    color: white;
+}
+
+.smart-scroll {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+.scrolled-down {
+    transform: translateY(-100%);
+    transition: all 0.3s ease-in-out;
+}
+
+.scrolled-up {
+    transform: translateY(0);
+    transition: all 0.3s ease-in-out;
+}
+
+footer {
+    margin-top: 10%;
+    background-color: black;
+}
+
+footer div {
+    color: white;
+    background-color: black;
+}
+
+form {
+    display: block;
+    width: 50%;
+    margin: auto;
+}
+
+.hoverEffect:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+}
+footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+}

@@ -1,0 +1,5 @@
+project/webpage/__pycache__/*.pyc
+project/webpage/views/__pycache__/*.pyc
+project/webpage/migrations/__pycache__/*.pyc
+project/project/__pycache__/*.pyc
+

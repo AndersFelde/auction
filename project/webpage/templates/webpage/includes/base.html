@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Webpage | {% block title %}{% endblock %}</title>
+    {% load static %}
+    <script src="{% static 'webpage/javascript/jquery/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'webpage/javascript/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% static 'webpage/javascript/active.js' %}" defer></script>
+    <script src="{% static 'webpage/javascript/smartScroll.js' %}" defer></script>
+
+    <link rel="stylesheet" href="{% static 'webpage/css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'webpage/css/main.css' %}">
+    {% block head %}{% endblock head %}
+</head>
+
+<body>
+    {% include "webpage/includes/navbar.html" %}
+    {% block content %}{% endblock %}
+    <footer class="text-center text-sm-start">
+        <div class="text-center p-2">
+            © 2021 Copyright: <a class="text-light" target="_blank" href="https://github.com/AndersFelde/Django-template">Anders K.
+                Felde</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+
+</body>
