@@ -40,8 +40,7 @@ CHANNEL_LAYERS = {
 INSTALLED_APPS = [
     'webpage.apps.WebpageConfig',
     'channels',
-    #  "django.contrib.humanize",
-    #  greie for tid
+    'django.contrib.humanize',  # for tid
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -129,3 +128,5 @@ USE_TZ = True
 # https://docs.djangoauction.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = 'webpage/static/'

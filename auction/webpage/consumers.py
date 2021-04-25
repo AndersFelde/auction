@@ -6,7 +6,7 @@ from .submodels.log import Log
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.room_name = self.scope['url_route']['kwargs']['room_name']
+        self.room_name = self.scope['url_route']['kwargs']['itemId']
         self.room_group_name = 'chat_%s' % self.room_name
 
         # Join room group
@@ -29,8 +29,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         message = event["message"]
         await self.send(text_data=json.dumps({'message': message}))
-        await database_sync_to_async(self.addLog)(message)
+        #  await self.addLog(message)
 
+    @database_sync_to_async
     def addLog(self, message):
         log = Log(room_name=self.room_name, message=message)
         log.save()

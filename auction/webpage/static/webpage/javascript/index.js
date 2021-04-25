@@ -1,12 +1,6 @@
-document.querySelector("#room-name-input").focus()
-document.querySelector("#room-name-input").onkeyup = function (e) {
-    if (e.keyCode === 13) {
-        // enter, return
-        document.querySelector("#room-name-submit").click()
-    }
-}
-
-document.querySelector("#room-name-submit").onclick = function (e) {
-    var roomName = document.querySelector("#room-name-input").value
-    window.location.pathname = "/room/" + roomName
-}
+$(".item-clickable").click(function () {
+    console.log($(this).children(".item-id")[0].value)
+    window.location.pathname = "/item/" + $(this).children(".item-id")[0].value
+    // var roomName = document.querySelector("#room-name-input").value
+    // window.location.pathname = "/room/" + roomName
+})

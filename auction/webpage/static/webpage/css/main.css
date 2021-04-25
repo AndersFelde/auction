@@ -63,8 +63,17 @@ form {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     cursor: pointer;
 }
+
 footer {
     position: fixed;
     bottom: 0px;
     width: 100%;
+}
+
+.block {
+    display: block;
+}
+
+.clickable:hover {
+    cursor: pointer;
 }

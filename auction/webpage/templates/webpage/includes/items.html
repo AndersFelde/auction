@@ -1,0 +1,20 @@
+{% load static %}
+{% load humanize %}
+<div class="row justify-content-center row-cols-md-2 row-cols-lg-3 row-cols-sm-1">
+    {% for item in items %}
+    <div class="col mt-3">
+        <div class="card item-clickable clickable">
+            <input type="hidden" class="item-id" value="{{item.id}}">
+            <img class="card-img-top " src="{% static item.image %}" alt="{{ item.name }}-image">
+            <div class="card-body">
+                <h5 class="card-title">{{ item.name }}</h5>
+                <p class="card-text">Pris: {{item.price}},-</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">{{ item.dato|naturaltime }}</small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>

@@ -1,0 +1,18 @@
+{% extends 'webpage/includes/base.html' %}
+{% load static %}
+{% block title %}{{ itemId }}{% endblock title %}
+{% block head %}
+<script src="{% static 'webpage/javascript/item.js' %}" defer></script>
+{% endblock %}
+{% block content %}
+<input type="hidden" value="hjem" id="active">
+<div class="container mb-5 mt-3 w-50">
+    <h1>{{ itemId }}</h1>
+    {# <textarea id="chat-log" cols="1" rows="2"></textarea><br> #}
+    {# <input id="chat-message-input" type="text" size="1"><br> #}
+    {# <input id="chat-message-submit" type="button" value="Send"> #}
+    {{ itemId|json_script:"itemId" }}
+    {% include "webpage/includes/items.html" %}
+</div>
+
+{% endblock content %}
