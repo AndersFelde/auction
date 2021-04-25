@@ -13,6 +13,11 @@
     {# <input id="chat-message-submit" type="button" value="Send"> #}
     {{ itemId|json_script:"itemId" }}
     {% include "webpage/includes/items.html" %}
+    <div class="input-group mb-3">
+        <button type="button" class="btn btn-outline-secondary">-</button>
+        <input type="number" value="{{ nextBid }}" class="form-control" aria-label="Text input with segmented dropdown button">
+        <button type="button" class="btn btn-outline-secondary">+</button>
+    </div>
 </div>
 
 {% endblock content %}
