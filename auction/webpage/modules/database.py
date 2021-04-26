@@ -33,3 +33,12 @@ class Database():
         item = self.getItemById(id)
         bid = Bid(item=item, bid=bid)
         bid.save()
+
+    def getCurrentBidFormatted(self, id):
+        currentBid = self.getHighestBid(id)
+        if currentBid == 0:
+            formattedBid = "N/A"
+        else:
+            formattedBid = str(currentBid) + " NOK"
+
+        return formattedBid

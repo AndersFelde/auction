@@ -8,7 +8,7 @@
             <img class="card-img-top " src="{% static item.image %}" alt="{{ item.name }}-image">
             <div class="card-body">
                 <h5 class="card-title">{{ item.name }}</h5>
-                <p class="card-text">Pris: {{item.price}},-<br><b>Bud: {{currentBid}}</b></p>
+                <p class="card-text">Pris: <span id="priceSpan">{{item.price}}</span>,-<br><b>Bud: <span id="bidSpan">{{item.bid}}</span></b></p>
             </div>
             <div class="card-footer">
                 <small class="text-muted">{{ item.dato|naturaltime }}</small>

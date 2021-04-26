@@ -9,8 +9,5 @@ class Item(models.Model):
     image = models.ImageField(upload_to="webpage/images/items/")
     dato = models.DateTimeField(default=timezone.now)
 
-    def imageName(self):
-        return str(self.image).split("/")[-1]
-
     def __str__(self):
         return f"{self.name}: {self.price},-"

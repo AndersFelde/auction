@@ -1,32 +1,35 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from webpage.modules.database import Database
+from webpage.modules.verify import Verify
+from .index import index
 
 #  from webpage.models import TestModal
 db = Database()
+verify = Verify()
 
 
 def item(request, itemId):
-    print(itemId)
+    if not verify.isInt(itemId) or not db.verifyItemId(itemId):
+        return redirect(index)
     item = []
     item.append(db.getItemById(itemId))
-    currentBid, nextBid = getCurrentBid(itemId)
+    item[0].bid = db.getHighestBid(itemId)
+    nextBid, item[0].bid = getNextBid(item[0])
     return render(request,
                   'webpage/item.html',
                   context={
                       'itemId': itemId,
                       "items": item,
-                      'currentBid': currentBid,
                       'nextBid': nextBid
                   })
 
 
-def getCurrentBid(id):
-    currentBid = db.getHighestBid(id)
-    if currentBid == 0:
-        currentBid = "N/A"
-        nextBid = int(int(db.getItemById(id).price) * 1.1)
+def getNextBid(item):
+    if item.bid == 0:
+        nextBid = int(item.price * 1.1)
+        bid = "N/A"
     else:
-        nextBid = int(int(currentBid) * 1.1)
-        currentBid = str(currentBid) + " NOK"
+        nextBid = item.bid + int(item.price * 0.1)
+        bid = item.bid
 
-    return currentBid, nextBid
+    return nextBid, bid

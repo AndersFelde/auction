@@ -1,24 +1,24 @@
 {% extends 'webpage/includes/base.html' %}
 {% load static %}
-{% block title %}{{ itemId }}{% endblock title %}
+{% block title %}Item{% endblock title %}
 {% block head %}
 <script src="{% static 'webpage/javascript/item.js' %}" defer></script>
 {% endblock %}
 {% block content %}
 <input type="hidden" value="hjem" id="active">
 <div class="container mb-5 mt-3 w-50">
-    <h1>{{ itemId }}</h1>
     {# <textarea id="chat-log" cols="1" rows="2"></textarea><br> #}
     {# <input id="chat-message-input" type="text" size="1"><br> #}
     {# <input id="chat-message-submit" type="button" value="Send"> #}
     {{ itemId|json_script:"itemId" }}
     {% include "webpage/includes/items.html" %}
     <div class="input-group mb-4">
-        <button type="button" class="btn btn-outline-secondary">-</button>
-        <input style="text-align:right" type="number" value="{{ nextBid }}" class="form-control" aria-label="Text input with segmented dropdown button">
+        <button type="button" id="minusBidButton" class="btn btn-outline-secondary">-</button>
+        <input id="bidInput" style="text-align:right" type="number" value="{{ nextBid }}" class="form-control" aria-label="Text input with segmented dropdown button">
         <span class="input-group-text">NOK</span>
-        <button type="button" class="btn btn-outline-secondary">+</button>
+        <button type="button" id="plussBidButton" class="btn btn-outline-secondary">+</button>
     </div>
+    <button id="submitBid" type="button" class="btn btn-primary position-relative end-0">Legg til bud</button>
 </div>
 
 {% endblock content %}
