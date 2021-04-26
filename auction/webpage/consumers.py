@@ -24,30 +24,33 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard(self.roomGroupId,
                                                self.channel_name)
 
-    async def sendError(self):
-        await self.send(text_data=json.dumps({'bid': False}))
+    async def sendError(self, msg):
+        await self.send(text_data=json.dumps({'bid': False, "msg": msg}))
 
     async def receive(self, text_data):
         if not self.user.is_authenticated:
             await self.disconnect("")
+
         text_data_json = json.loads(text_data)
         bid = text_data_json['bid']
         if not self.verify.isInt(bid):
-            await self.sendError()
+            await self.sendError("Please send a number")
             return
 
         bid = int(bid)
 
-        isHigher = await self.higherBid(bid)
+        validateBid = await self.validateBid(bid)
 
-        if isHigher:
-            await database_sync_to_async(self.db.setNewBid)(bid, self.roomId)
+        if validateBid == True:
+            # Fordi den retunerer en string hvis det er error, noe som også vil være true
+            await database_sync_to_async(self.db.setNewBid)(bid, self.roomId,
+                                                            self.user)
             await self.channel_layer.group_send(self.roomGroupId, {
                 'type': 'newBid',
                 'bid': bid
             })
         else:
-            await self.sendError()
+            await self.sendError(validateBid)
 
     async def newBid(self, event):
         if not self.user.is_authenticated:
@@ -55,8 +58,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         bid = event["bid"]
         await self.send(text_data=json.dumps({'bid': bid}))
 
-        #  await self.addLog(message)
-
     @database_sync_to_async
-    def higherBid(self, bid):
-        return self.db.validateBid(bid, self.roomId)
+    def validateBid(self, bid):
+        return self.db.validateBid(bid, self.roomId, self.user)

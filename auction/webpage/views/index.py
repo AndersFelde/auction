@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from webpage.modules.database import Database
 #  from webpage.models import TestModal
+#  from django.contrib.messages import get_messages
+from django.contrib import messages
 
 db = Database()
 

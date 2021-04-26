@@ -2,12 +2,15 @@ import re
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from webpage.modules.verify import Verify
+from django.contrib import messages
 
 verify = Verify()
 
 
 def signUp(request):
     if request.user.is_authenticated:
+        messages.add_message(request, messages.INFO,
+                             'Du er allerede logget inn')
         return redirect("/")
 
     if request.method == "POST":
@@ -19,16 +22,22 @@ def signUp(request):
                                                 password=data["password1"])
                 user.save()
             except:
-                print("USER allready exists")
+                messages.add_message(request, messages.INFO,
+                                     'Det skjedde en feil, prøv igjen')
+                return render(request, "webpage/signUp.html")
 
-        remember = request.POST.get('remember', False)
-        if remember:
-            print(data["remember"])
-            verify.logUserIn(request, data["email"], data["password1"])
-            return redirect("/")
-        else:
-            return redirect("/logIn")
+            remember = request.POST.get('remember', False)
+            if remember:
+                print(data["remember"])
+                verify.logUserIn(request, data["email"], data["password1"])
+                return redirect("/")
+            else:
+                messages.add_message(request, messages.INFO,
+                                     f'Bruker "{data["email"]}" ble laget')
+                return redirect("/logIn")
 
+        messages.add_message(request, messages.INFO,
+                             'Passordene sammsvarte ikke')
     return render(request, "webpage/signUp.html")
 
 

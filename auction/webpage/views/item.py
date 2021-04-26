@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from webpage.modules.database import Database
 from webpage.modules.verify import Verify
 
@@ -9,9 +10,13 @@ verify = Verify()
 
 def item(request, itemId):
     if not verify.isInt(itemId) or not db.verifyItemId(itemId):
+        messages.add_message(request, messages.INFO, "Id'en du oppga er feil")
+        print("ID VAR FEIL")
         return redirect("/")
 
     if not request.user.is_authenticated:
+        messages.add_message(request, messages.INFO,
+                             'Vennligst logg inn for å by')
         return redirect("/logIn")
 
     item = []

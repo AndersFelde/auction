@@ -13,6 +13,16 @@ const plussBidButton = document.querySelector("#plussBidButton")
 const minusBidButton = document.querySelector("#minusBidButton")
 const submitBidButton = document.querySelector("#submitBid")
 
+const itemToastContainer = document.querySelector("#itemToastContainer")
+const itemToastElList = [].slice.call(
+    itemToastContainer.querySelectorAll(".toast")
+)
+const itemToast = itemToastElList.map(function (toastEl) {
+    return new bootstrap.Toast(toastEl)
+})[0]
+
+const toastMessage = itemToastContainer.querySelector("#toastMessage")
+
 function isInteger(value) {
     return /^\d+$/.test(value)
 }
@@ -35,7 +45,8 @@ chatSocket.onmessage = function (e) {
         bidSpan.innerHTML = data.bid
         bidInput.value = parseInt(data.bid) + increase
     } else {
-        alert("Fuck off")
+        toastMessage.innerHTML = data.msg
+        itemToast.show()
         bidInput.value = parseInt(bidSpan.innerHTML) + increase
     }
 }

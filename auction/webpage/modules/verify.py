@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 
 class Verify():
@@ -21,6 +22,8 @@ class Verify():
         if user:
             login(request, user)
             print(f"Logged in {email}")
+            messages.add_message(request, messages.INFO,
+                                 f'Logget inn som {email}')
             return True
         else:
             return False

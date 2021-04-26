@@ -15,6 +15,9 @@
 
 <body>
     {% include "webpage/includes/navbar.html" %}
+    {% include "webpage/includes/toasts.html" %}
+    <script src="{% static 'webpage/javascript/triggerToasts.js' %}"></script>
+    {# Ligger her pga item-toasts #}
     {% block content %}{% endblock %}
     <footer class="text-center text-sm-start">
         <div class="text-center p-2">
