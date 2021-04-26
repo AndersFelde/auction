@@ -1,0 +1,25 @@
+{% extends 'webpage/includes/base.html' %}
+{% load static %}
+{% block title %}Log inn{% endblock title %}
+{% block head %}
+{% endblock %}
+{% block content %}
+<input type="hidden" value="logIn" id="active">
+<div class="container mb-5 mt-3 w-50">
+    <form class="w-75" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input required type="email" value="{% if email %} {{email}} {% endif %}" name="email" class="form-control" id="email" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input required name="password" type="password" class="form-control" id="password">
+        </div>
+        <button type="submit" class="btn btn-primary">Logg inn</button> eller
+        <a href="/signUp" class="">Lag ny bruker</a>
+    </form>
+</div>
+
+{% endblock content %}

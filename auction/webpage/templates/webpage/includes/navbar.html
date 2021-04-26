@@ -1,35 +1,29 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg smart-scroll sticky-top navbar-dark">
+<nav class="navbar navbar-expand-sm smart-scroll sticky-top navbar-dark">
     <ul class="list-inline text-center">
         <li class="list-inline-item">
             <a class="nav-link" id="hjem" href="/">Hjem</a>
         </li>
-        <li class="list-inline-item">
-            <a class="nav-link" id="formPage" href="/formPage">Form Page</a>
-        </li>
-        <li class="list-inline-item">
-            <a class="nav-link" id="None" href="#">None</a>
-        </li>
-        <li class="list-inline-item">
-            <a class="nav-link" id="None" href="#">None</a>
-        </li>
-
-        {# fikse active? #}
+        {% if user.is_authenticated %}
         <li class="list-inline-item">
             <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
+                            {{ user.get_username }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="/logOut">Logg ut</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
         </li>
+        {% else %}
+        <li class="list-inline-item">
+            <a class="nav-link" id="logIn" href="/logIn">Logg inn</a>
+        </li>
+        {% endif %}
+        {# fikse active? #}
     </ul>
 </nav>

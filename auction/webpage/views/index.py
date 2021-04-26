@@ -8,6 +8,7 @@ db = Database()
 def index(request):
     items = db.getAllItems()
     print(items)
+    print("mordi")
     items = getBids(items)
     return render(request, "webpage/index.html", context={"items": items})
 

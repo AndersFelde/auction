@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from webpage.modules.database import Database
 from webpage.modules.verify import Verify
-from .index import index
 
 #  from webpage.models import TestModal
 db = Database()
@@ -10,7 +9,11 @@ verify = Verify()
 
 def item(request, itemId):
     if not verify.isInt(itemId) or not db.verifyItemId(itemId):
-        return redirect(index)
+        return redirect("/")
+
+    if not request.user.is_authenticated:
+        return redirect("/logIn")
+
     item = []
     item.append(db.getItemById(itemId))
     item[0].bid = db.getHighestBid(itemId)

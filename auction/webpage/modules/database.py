@@ -24,8 +24,13 @@ class Database():
         return 0
 
     def validateBid(self, bid, id):
-        if self.verifyItemId(id) and bid > self.getItemById(
-                id).price and bid > self.getHighestBid(id):
+        if not self.verifyItemId(id):
+            return False
+
+        item = self.getItemById(id)
+        highestBid = self.getHighestBid(id)
+        if bid > item.price and bid > highestBid and bid > (
+                highestBid + (item.price * 0.03)):
             return True
         return False
 

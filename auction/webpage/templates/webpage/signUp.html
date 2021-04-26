@@ -1,0 +1,33 @@
+{% extends 'webpage/includes/base.html' %}
+{% load static %}
+{% block title %}Opprett bruker{% endblock title %}
+{% block head %}
+<script src="{% static 'webpage/javascript/signUp.js' %}" defer></script>
+{% endblock %}
+{% block content %}
+<input type="hidden" value="signUp" id="active">
+<div class="container mb-5 mt-3 w-50">
+    <form method="POST" id="signUpForm" class="w-75">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="password1" class="form-label">Password</label>
+            <input type="password" name="password1" class="form-control" id="password1">
+        </div>
+        <div class="mb-3">
+            <label for="password2" class="form-label">Repeat Password</label>
+            <input type="password" name="password2" class="form-control" id="password2">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" name="remember" id="remember">
+            <label class="form-check-label" for="remember">Husk meg</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Logg inn</button>
+    </form>
+</div>
+
+{% endblock content %}
