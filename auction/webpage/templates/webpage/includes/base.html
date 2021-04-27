@@ -7,6 +7,8 @@
     <script src="{% static 'webpage/javascript/bootstrap/bootstrap.min.js' %}"></script>
     <script src="{% static 'webpage/javascript/active.js' %}" defer></script>
     <script src="{% static 'webpage/javascript/smartScroll.js' %}" defer></script>
+    <script src="{% static 'webpage/javascript/startupToasts.js' %}" defer></script>
+    <script src="{% static 'webpage/javascript/tempToast.js' %}" defer></script>
 
     <link rel="stylesheet" href="{% static 'webpage/css/bootstrap/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'webpage/css/main.css' %}">
@@ -15,8 +17,8 @@
 
 <body>
     {% include "webpage/includes/navbar.html" %}
-    {% include "webpage/includes/toasts.html" %}
-    <script src="{% static 'webpage/javascript/triggerToasts.js' %}"></script>
+    {% include "webpage/includes/startupToasts.html" %}
+    {% include "webpage/includes/tempToasts.html" %}
     {# Ligger her pga item-toasts #}
     {% block content %}{% endblock %}
     <footer class="text-center text-sm-start">

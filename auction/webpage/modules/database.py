@@ -23,10 +23,11 @@ class Database():
             return Bid.objects.filter(item__id=id).order_by("-bid")[0].bid
         return 0
 
-    def getHighestBidUser(self, id):
+    def getHighestBidWithUser(self, id):
         if self.bidExists(id):
-            return Bid.objects.filter(item__id=id).order_by("-bid")[0].user
-        return None
+            bid = Bid.objects.filter(item__id=id).order_by("-bid")[0]
+            return bid.bid, bid.user.id
+        return 0, None
 
     def validateBid(self, bid, id, user):
         if not self.verifyItemId(id):
@@ -34,7 +35,7 @@ class Database():
 
         item = self.getItemById(id)
 
-        highestBid = self.getHighestBid(id)
+        highestBid, bidUserId = self.getHighestBidWithUser(id)
 
         if bid <= item.price or bid <= highestBid:
             return "Må være ett høyere bud"
@@ -42,9 +43,7 @@ class Database():
         if bid <= (highestBid + (item.price * 0.03)):
             return f"Må øke med mer enn {int(item.price * 0.03)},-"
 
-        highestUser = self.getHighestBidUser(id)
-
-        if highestUser == user:
+        if bidUserId == user.id:
             return "Kan ikke overby deg selv"
 
         return True
@@ -54,11 +53,14 @@ class Database():
         bid = Bid(item=item, bid=bid, user=user)
         bid.save()
 
-    def getCurrentBidFormatted(self, id):
-        currentBid = self.getHighestBid(id)
+    def getCurrentBidFormatted(self, id, userId):
+        currentBid, userBidId = self.getHighestBidWithUser(id)
         if currentBid == 0:
             formattedBid = "N/A"
         else:
             formattedBid = str(currentBid) + " NOK"
+
+        if userBidId == userId:
+            formattedBid += " (du)"
 
         return formattedBid

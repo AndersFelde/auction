@@ -11,7 +11,6 @@ verify = Verify()
 def item(request, itemId):
     if not verify.isInt(itemId) or not db.verifyItemId(itemId):
         messages.add_message(request, messages.INFO, "Id'en du oppga er feil")
-        print("ID VAR FEIL")
         return redirect("/")
 
     if not request.user.is_authenticated:
@@ -21,8 +20,12 @@ def item(request, itemId):
 
     item = []
     item.append(db.getItemById(itemId))
-    item[0].bid = db.getHighestBid(itemId)
+    item[0].bid, userId = db.getHighestBidWithUser(itemId)
     nextBid, item[0].bid = getNextBid(item[0])
+
+    if request.user.id == userId:
+        item[0].bid = str(item[0].bid) + " (du)"
+
     return render(request,
                   'webpage/item.html',
                   context={

@@ -1,4 +1,5 @@
-const toastElList = [].slice.call(document.querySelectorAll(".toast"))
+const toastContainer = document.querySelector("#startupToasts")
+const toastElList = [].slice.call(toastContainer.querySelectorAll(".toast"))
 const toastList = toastElList.map(function (toastEl) {
     return new bootstrap.Toast(toastEl)
 })

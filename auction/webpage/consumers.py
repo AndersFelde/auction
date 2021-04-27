@@ -5,7 +5,7 @@ from .modules.database import Database
 from .modules.verify import Verify
 
 
-class ChatConsumer(AsyncWebsocketConsumer):
+class BidConsumer(AsyncWebsocketConsumer):
     db = Database()
     verify = Verify()
 
@@ -28,8 +28,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({'bid': False, "msg": msg}))
 
     async def receive(self, text_data):
-        if not self.user.is_authenticated:
-            await self.disconnect("")
+        if not self.verifyUser():
+            return
 
         text_data_json = json.loads(text_data)
         bid = text_data_json['bid']
@@ -47,16 +47,28 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                                             self.user)
             await self.channel_layer.group_send(self.roomGroupId, {
                 'type': 'newBid',
-                'bid': bid
+                'bid': bid,
+                'userId': self.user.id
             })
         else:
             await self.sendError(validateBid)
 
     async def newBid(self, event):
+        if self.verifyUser():
+            bid = event["bid"]
+            isUser = self.user.id == event["userId"]
+            await self.send(text_data=json.dumps({'bid': bid, 'user': isUser}))
+
+    async def verifyUser(self):
         if not self.user.is_authenticated:
+            print(self.user + " is invalid")
+            await self.send(text_data=json.dumps({
+                'bid': False,
+                'invalid': True
+            }))
             await self.disconnect("")
-        bid = event["bid"]
-        await self.send(text_data=json.dumps({'bid': bid}))
+            return False
+        return True
 
     @database_sync_to_async
     def validateBid(self, bid):
