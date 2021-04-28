@@ -20,10 +20,11 @@ def item(request, itemId):
 
     item = []
     item.append(db.getItemById(itemId))
-    item[0].bid, userId = db.getHighestBidWithUser(itemId)
+    item[0].bid, user = db.getHighestBidWithUser(itemId)
+
     nextBid, item[0].bid = getNextBid(item[0])
 
-    if request.user.id == userId:
+    if request.user.id == user.id:
         item[0].bid = str(item[0].bid) + " (du)"
 
     return render(request,

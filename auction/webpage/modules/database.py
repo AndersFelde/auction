@@ -1,5 +1,6 @@
 from webpage.submodels.item import Item
 from webpage.submodels.bid import Bid
+from webpage.submodels.notification import Notification
 
 
 class Database():
@@ -26,27 +27,8 @@ class Database():
     def getHighestBidWithUser(self, id):
         if self.bidExists(id):
             bid = Bid.objects.filter(item__id=id).order_by("-bid")[0]
-            return bid.bid, bid.user.id
+            return bid.bid, bid.user
         return 0, None
-
-    def validateBid(self, bid, id, user):
-        if not self.verifyItemId(id):
-            return False
-
-        item = self.getItemById(id)
-
-        highestBid, bidUserId = self.getHighestBidWithUser(id)
-
-        if bid <= item.price or bid <= highestBid:
-            return "Må være ett høyere bud"
-
-        if bid <= (highestBid + (item.price * 0.03)):
-            return f"Må øke med mer enn {int(item.price * 0.03)},-"
-
-        if bidUserId == user.id:
-            return "Kan ikke overby deg selv"
-
-        return True
 
     def setNewBid(self, bid, id, user):
         item = self.getItemById(id)
@@ -54,7 +36,9 @@ class Database():
         bid.save()
 
     def getCurrentBidFormatted(self, id, userId):
-        currentBid, userBidId = self.getHighestBidWithUser(id)
+        currentBid, userBid = self.getHighestBidWithUser(id)
+        userBidId = userBid.id
+
         if currentBid == 0:
             formattedBid = "N/A"
         else:
@@ -64,3 +48,10 @@ class Database():
             formattedBid += " (du)"
 
         return formattedBid
+
+    def createNotification(self, item, user, bid):
+        notifi = Notification(item=item, user=user, bid=bid)
+        notifi.save()
+
+    def readNotification(self, user, item):
+        notifi.read = True

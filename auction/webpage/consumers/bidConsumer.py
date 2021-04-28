@@ -1,8 +1,8 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
-from .modules.database import Database
-from .modules.verify import Verify
+from webpage.modules.database import Database
+from webpage.modules.verify import Verify
 
 
 class BidConsumer(AsyncWebsocketConsumer):
@@ -10,12 +10,11 @@ class BidConsumer(AsyncWebsocketConsumer):
     verify = Verify()
 
     async def connect(self):
-        self.roomId = self.scope['url_route']['kwargs']['itemId']
-        self.roomGroupId = 'item_%s' % self.roomId
         self.user = self.scope["user"]
 
-        # Join room group
         if self.user.is_authenticated:
+            self.roomId = self.scope['url_route']['kwargs']['itemId']
+            self.roomGroupId = 'item_%s' % self.roomId
             await self.channel_layer.group_add(self.roomGroupId,
                                                self.channel_name)
             await self.accept()
@@ -50,6 +49,9 @@ class BidConsumer(AsyncWebsocketConsumer):
                 'bid': bid,
                 'userId': self.user.id
             })
+
+            if not self.bidUser.id == None:
+                await self.notifyBidder(bid)
         else:
             await self.sendError(validateBid)
 
@@ -70,6 +72,47 @@ class BidConsumer(AsyncWebsocketConsumer):
             return False
         return True
 
+    async def notifyBidder(self, bid):
+        userGroupId = 'userNotify_%s' % self.bidUser.id
+
+        await self.channel_layer.group_add(userGroupId, self.channel_name)
+        print(self.channel_name)
+
+        await self.channel_layer.group_send(
+            userGroupId, {
+                'type': 'notifyBid',
+                'bid': bid,
+                'itemId': self.roomId,
+                'itemName': self.bidItem.name
+            })
+
+        await self.channel_layer.group_discard(userGroupId, self.channel_name)
+
+        await self.createNotification(bid)
+
+    async def notifyBid(self, _):
+        pass
+
+    @database_sync_to_async
+    def createNotification(self, bid):
+        self.db.createNotification(self.bidItem, self.bidUser, bid)
+
     @database_sync_to_async
     def validateBid(self, bid):
-        return self.db.validateBid(bid, self.roomId, self.user)
+        if not self.db.verifyItemId(self.roomId):
+            return False
+
+        self.bidItem = self.db.getItemById(self.roomId)
+
+        highestBid, self.bidUser = self.db.getHighestBidWithUser(self.roomId)
+
+        if bid <= self.bidItem.price or bid <= highestBid:
+            return "Må være ett høyere bud"
+
+        if bid <= (highestBid + (self.bidItem.price * 0.03)):
+            return f"Må øke med mer enn {int(self.bidItem.price * 0.03)},-"
+
+        if self.bidUser.id == self.user.id:
+            return "Kan ikke overby deg selv"
+
+        return True
