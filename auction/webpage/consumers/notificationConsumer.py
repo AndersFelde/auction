@@ -46,7 +46,8 @@ class NotificationConsumer(AsyncWebsocketConsumer):
 
                 await self.send(text_data=json.dumps({
                     'msg': msg,
-                    'itemId': itemId
+                    'itemId': itemId,
+                    'bid': bid
                 }))
             else:
                 await self.readNotification(itemId)

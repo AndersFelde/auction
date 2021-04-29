@@ -6,10 +6,8 @@ if (url[url.length - 1] == "") {
 const itemId = url[url.length - 1]
 
 const notifyChatSocket = new WebSocket(
-    "ws://" + window.location.host + "/ws/notify/" + itemId + "?"
+    "ws://" + window.location.host + "/ws/notify/" + itemId
 )
-
-console.log(itemId)
 
 notifyChatSocket.onclose = function () {
     console.error("Chat socket closed unexpectedly")
@@ -17,8 +15,10 @@ notifyChatSocket.onclose = function () {
 
 notifyChatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data)
-    if (itemId != data.itemId) {
-        console.log(data)
-        tempNotify(data.msg)
-    }
+    tempNotify(data.msg)
+
+    console.log(data)
+    const itemDiv = document.querySelector("#item-" + data.itemId)
+    const bidSpan = itemDiv.querySelector("#bidSpan")
+    bidSpan.innerHTML = data.bid
 }
