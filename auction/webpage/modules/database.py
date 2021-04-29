@@ -37,21 +37,31 @@ class Database():
 
     def getCurrentBidFormatted(self, id, userId):
         currentBid, userBid = self.getHighestBidWithUser(id)
-        userBidId = userBid.id
 
         if currentBid == 0:
             formattedBid = "N/A"
         else:
             formattedBid = str(currentBid) + " NOK"
-
-        if userBidId == userId:
-            formattedBid += " (du)"
+            if userBid.id == userId:
+                formattedBid += " (du)"
 
         return formattedBid
+
+    def getNotifications(self, userId):
+        return Notification.objects.filter(user__id=userId).order_by(
+            "read", "-dato")
 
     def createNotification(self, item, user, bid):
         notifi = Notification(item=item, user=user, bid=bid)
         notifi.save()
 
-    def readNotification(self, user, item):
-        notifi.read = True
+    def readNotification(self, userId, itemId):
+        print("JOEMAMA")
+        notifications = Notification.objects.filter(user__id=userId,
+                                                    item__id=itemId,
+                                                    read=False)
+        print(notifications)
+
+        for notifi in notifications:
+            notifi.read = True
+            notifi.save()

@@ -50,7 +50,7 @@ class BidConsumer(AsyncWebsocketConsumer):
                 'userId': self.user.id
             })
 
-            if not self.bidUser.id == None:
+            if not self.bidUser == None:
                 await self.notifyBidder(bid)
         else:
             await self.sendError(validateBid)
@@ -112,7 +112,7 @@ class BidConsumer(AsyncWebsocketConsumer):
         if bid <= (highestBid + (self.bidItem.price * 0.03)):
             return f"Må øke med mer enn {int(self.bidItem.price * 0.03)},-"
 
-        if self.bidUser.id == self.user.id:
+        if not self.bidUser == None and self.bidUser.id == self.user.id:
             return "Kan ikke overby deg selv"
 
         return True

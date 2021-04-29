@@ -24,8 +24,12 @@ def item(request, itemId):
 
     nextBid, item[0].bid = getNextBid(item[0])
 
-    if request.user.id == user.id:
-        item[0].bid = str(item[0].bid) + " (du)"
+    if not user == None:
+        if request.user.id == user.id:
+            item[0].bid = str(item[0].bid) + " (du)"
+            print("JOE MAMA 1")
+        else:
+            db.readNotification(request.user.id, item[0].id)
 
     return render(request,
                   'webpage/item.html',

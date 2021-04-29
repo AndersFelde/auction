@@ -31,31 +31,15 @@ class NotificationConsumer(AsyncWebsocketConsumer):
     #  async def sendError(self, msg):
     #      await self.send(text_data=json.dumps({'bid': False, "msg": msg}))
 
-    async def receive(self, text_data):
+    async def receive(self, _):
         pass
-        #  if not self.verifyUser():
-        #      return
-        #
-        #  text_data_json = json.loads(text_data)
-        #  msg = text_data_json['msg']
-        #
-        #  if validateBid == True:
-        #      # Fordi den retunerer en string hvis det er error, noe som også vil være true
-        #      await database_sync_to_async(self.db.setNewBid)(bid, self.roomId,
-        #                                                      self.user)
-        #      await self.channel_layer.group_send(self.roomGroupId, {
-        #          'type': 'newBid',
-        #          'bid': bid,
-        #          'userId': self.user.id
-        #      })
-        #  else:
-        #      await self.sendError(validateBid)
 
     async def notifyBid(self, event):
         if self.verifyUser():
             bid = event["bid"]
-            if not bid == self.path:
-                itemId = event["itemId"]
+            itemId = event["itemId"]
+            print(itemId, self.path)
+            if not itemId == self.path:
                 itemName = event["itemName"]
 
                 msg = f"Nytt bud: {bid}NOK, på <a href='/item/{itemId}'>{itemName}</a>"
@@ -64,7 +48,8 @@ class NotificationConsumer(AsyncWebsocketConsumer):
                     'msg': msg,
                     'itemId': itemId
                 }))
-                self.db.readNotification()
+            else:
+                await self.readNotification(itemId)
 
     async def verifyUser(self):
         if not self.user.is_authenticated:
@@ -78,22 +63,5 @@ class NotificationConsumer(AsyncWebsocketConsumer):
         return True
 
     @database_sync_to_async
-    def validateBid(self, bid):
-        if not self.db.verifyItemId(self.roomId):
-            return False
-
-        item = self.db.getItemById(self.roomId)
-        self.bidItemName = item.name
-
-        highestBid, self.bidUserId = self.db.getHighestBidWithUser(self.roomId)
-
-        if bid <= item.price or bid <= highestBid:
-            return "Må være ett høyere bud"
-
-        if bid <= (highestBid + (item.price * 0.03)):
-            return f"Må øke med mer enn {int(item.price * 0.03)},-"
-
-        if self.bidUserId == self.user.id:
-            return "Kan ikke overby deg selv"
-
-        return True
+    def readNotification(self, itemId):
+        self.db.readNotification(self.user.id, itemId)

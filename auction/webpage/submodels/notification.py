@@ -11,6 +11,7 @@ class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              default=11)  #Er en dummy user
     bid = models.IntegerField()
+    read = models.BooleanField(default=False)
     dato = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

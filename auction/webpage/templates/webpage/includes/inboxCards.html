@@ -1,0 +1,19 @@
+{% load humanize %}
+<div class="row justify-content-center row-cols-md-2 row-cols-lg-4 row-cols-sm-1">
+    {% for notifi in notifications %}
+    <div class="col mt-3">
+        <div class="card h-100 {% if not notifi.read %}border-primary{% endif %}">
+            <div class="card-header {% if not notifi.read %}text-primary{% endif %}">
+                New Bid
+            </div>
+            <div class="card-body ">
+                <h5 class="card-title"><a href="/item/{{notifi.item.id}}">{{notifi.item.name}}</a></h5>
+                <p class="card-text">New bid: {{notifi.bid}}</p>
+            </div>
+            <div class="card-footer text-muted">
+                {{ notifi.dato|naturaltime }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
