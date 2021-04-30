@@ -8,8 +8,10 @@
     <script src="{% static 'webpage/javascript/active.js' %}" defer></script>
     <script src="{% static 'webpage/javascript/smartScroll.js' %}" defer></script>
     <script src="{% static 'webpage/javascript/startupToasts.js' %}" defer></script>
+    {% if user.is_authenticated %}
     <script src="{% static 'webpage/javascript/tempToast.js' %}" defer></script>
     <script src="{% static 'webpage/javascript/notifications.js' %}" defer></script>
+    {% endif %}
 
     <link rel="stylesheet" href="{% static 'webpage/css/bootstrap/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'webpage/css/main.css' %}">
@@ -19,7 +21,9 @@
 <body>
     {% include "webpage/includes/navbar.html" %}
     {% include "webpage/includes/startupToasts.html" %}
+    {% if user.is_authenticated %}
     {% include "webpage/includes/tempToasts.html" %}
+    {% endif %}
     {# Ligger her pga item-toasts #}
     {% block content %}{% endblock %}
     <footer class="text-center text-sm-start">

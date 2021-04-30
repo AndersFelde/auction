@@ -9,16 +9,45 @@ const notifyChatSocket = new WebSocket(
     "ws://" + window.location.host + "/ws/notify/" + itemId
 )
 
+const notifiNavSpanList = document.querySelectorAll(".notifiNav")
+
+var notifications
+
+notifyChatSocket.onopen = function () {
+    console.log("joe")
+    notifyChatSocket.send(
+        JSON.stringify({
+            type: "getNotifications",
+        })
+    )
+}
+
 notifyChatSocket.onclose = function () {
     console.error("Chat socket closed unexpectedly")
 }
 
 notifyChatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data)
-    tempNotify(data.msg)
+    if (data.msg) {
+        tempNotify(data.msg)
 
-    console.log(data)
-    const itemDiv = document.querySelector("#item-" + data.itemId)
-    const bidSpan = itemDiv.querySelector("#bidSpan")
-    bidSpan.innerHTML = data.bid
+        if (itemId == "index") {
+            const itemDiv = document.querySelector("#item-" + data.itemId)
+            const bidSpan = itemDiv.querySelector("#bidSpan")
+            bidSpan.innerHTML = data.bid + " NOK"
+        }
+
+        updateNotifications(notifications + 1)
+    } else {
+        updateNotifications(data.count)
+    }
+}
+
+function updateNotifications(number) {
+    if (number > 0) {
+        notifiNavSpanList.forEach((el) => {
+            el.innerHTML = "(" + number + ")"
+        })
+    }
+    notifications = number
 }

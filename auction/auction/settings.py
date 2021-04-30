@@ -25,6 +25,7 @@ SECRET_KEY = '+t8sq1#6dxh+&1gt+bch=4y%fs-*sgs6vtyu=4^9zd%cy3l^z%'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+#  ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]', "10.97.173.11"]
 
 ASGI_APPLICATION = "auction.asgi.application"
 CHANNEL_LAYERS = {

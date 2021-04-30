@@ -51,6 +51,9 @@ class Database():
         return Notification.objects.filter(user__id=userId).order_by(
             "read", "-dato")
 
+    def getNotificationCount(self, userId):
+        return Notification.objects.filter(user__id=userId, read=False).count()
+
     def createNotification(self, item, user, bid):
         notifi = Notification(item=item, user=user, bid=bid)
         notifi.save()

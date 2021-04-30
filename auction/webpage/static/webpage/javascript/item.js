@@ -33,7 +33,7 @@ chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data)
     console.log(data)
     if (data.bid) {
-        bidSpan.innerHTML = data.bid
+        bidSpan.innerHTML = data.bid + " NOK"
         bidInput.value = parseInt(data.bid) + increase
         if (data.user) {
             tempNotify("Du la inn bud på: " + data.bid + ",-")

@@ -31,8 +31,19 @@ class NotificationConsumer(AsyncWebsocketConsumer):
     #  async def sendError(self, msg):
     #      await self.send(text_data=json.dumps({'bid': False, "msg": msg}))
 
-    async def receive(self, _):
-        pass
+    async def receive(self, text_data):
+        print(text_data)
+        if not self.verifyUser():
+            return
+
+        text_data_json = json.loads(text_data)
+        type = text_data_json['type']
+
+        if type == "getNotifications":
+            notifications = await self.getNotificationCount()
+            print(notifications)
+
+            await self.send(text_data=json.dumps({'count': notifications}))
 
     async def notifyBid(self, event):
         if self.verifyUser():
@@ -62,6 +73,10 @@ class NotificationConsumer(AsyncWebsocketConsumer):
             await self.disconnect("")
             return False
         return True
+
+    @database_sync_to_async
+    def getNotificationCount(self):
+        return self.db.getNotificationCount(self.user.id)
 
     @database_sync_to_async
     def readNotification(self, itemId):

@@ -11,9 +11,12 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="user" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ user.get_username }}
+                            <span class="notifiNav"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" href="/inbox">Inbox</a></li>
+                            <li><a class="dropdown-item" href="/inbox">Inbox
+                                    <span class="notifiNav"></span>
+                                </a></li>
                             <li><a class="dropdown-item" href="/logOut">Logg ut</a></li>
                         </ul>
                     </li>

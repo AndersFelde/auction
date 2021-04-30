@@ -27,7 +27,6 @@ def item(request, itemId):
     if not user == None:
         if request.user.id == user.id:
             item[0].bid = str(item[0].bid) + " (du)"
-            print("JOE MAMA 1")
         else:
             db.readNotification(request.user.id, item[0].id)
 
@@ -46,6 +45,6 @@ def getNextBid(item):
         bid = "N/A"
     else:
         nextBid = item.bid + int(item.price * 0.1)
-        bid = item.bid
+        bid = str(item.bid) + " NOK"
 
     return nextBid, bid
