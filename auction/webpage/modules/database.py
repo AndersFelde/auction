@@ -16,6 +16,9 @@ class Database():
     def verifyItemId(self, id):
         return Item.objects.filter(id=id).exists()
 
+    def getMyBids(self, id):
+        return Bid.objects.filter(user__id=id).order_by("-dato")
+
     def bidExists(self, id):
         return Bid.objects.filter(item__id=id).exists()
 
@@ -59,7 +62,6 @@ class Database():
         notifi.save()
 
     def readNotification(self, userId, itemId):
-        print("JOEMAMA")
         notifications = Notification.objects.filter(user__id=userId,
                                                     item__id=itemId,
                                                     read=False)

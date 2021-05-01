@@ -1,0 +1,19 @@
+{% load humanize %}
+<div class="row justify-content-center row-cols-md-2 row-cols-lg-4 row-cols-sm-1">
+    {% for bid in bids %}
+    <div class="col mt-3">
+        <div class="card h-100 clickable notifi-card item-{{bid.item.id}}">
+            <div id="classHeader" class="card-header">
+                Mitt bud
+            </div>
+            <div class="card-body ">
+                <h5 class="card-title"><a id="item-link" href="/item/{{bid.item.id}}">{{bid.item.name}}</a></h5>
+                <p class="card-text">Mitt bud: <b>{{bid.bid}} NOK <span id="bidPrefix">{{bid.prefix}}</span></b></p>
+            </div>
+            <div class="card-footer text-muted">
+                {{ bid.dato|naturaltime }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

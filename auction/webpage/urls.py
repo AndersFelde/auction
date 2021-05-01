@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 from django.views.generic.base import RedirectView
-from .views import index, item, logIn, signUp, logOut, inbox
+from .views import index, item, logIn, signUp, logOut, inbox, myBids
 
 urlpatterns = [
     path("", index.index, name="index"),
@@ -9,6 +9,7 @@ urlpatterns = [
     path("signUp", signUp.signUp, name="signUp"),
     path("logOut", logOut.logOut, name="logOut"),
     path("inbox", inbox.inbox, name="inbox"),
+    path("myBids", myBids.myBids, name="myBids"),
     #  re_path(r'^.*$',
     #          RedirectView.as_view(url='/', permanent=False),
     #          name='index')

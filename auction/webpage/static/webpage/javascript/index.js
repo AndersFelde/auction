@@ -4,3 +4,9 @@ $(".item-clickable").click(function () {
     // var roomName = document.querySelector("#room-name-input").value
     // window.location.pathname = "/room/" + roomName
 })
+
+function handleNotification(data) {
+    const itemDiv = document.querySelector("#item-" + data.itemId)
+    const bidSpan = itemDiv.querySelector("#bidSpan")
+    bidSpan.innerHTML = data.bid + " NOK"
+}

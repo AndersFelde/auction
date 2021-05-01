@@ -1,0 +1,12 @@
+{% extends 'webpage/includes/base.html' %}
+{% load static %}
+{% block title %}Mine bud{% endblock title %}
+{% block head %}
+<script src="{% static 'webpage/javascript/myBids.js' %}" defer></script>
+{% endblock %}
+{% block content %}
+<input type="hidden" value="user" id="active">
+<div class="container mb-5 mt-3 w-75">
+    {% include "webpage/includes/bidCards.html" %}
+</div>
+{% endblock content %}
