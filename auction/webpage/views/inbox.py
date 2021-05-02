@@ -7,7 +7,7 @@ db = Database()
 
 def inbox(request):
     if not request.user.is_authenticated:
-        messages.add_message(request, messages.INFO,
+        messages.add_message(request, messages.ERROR,
                              'Du må være logget inn for å se inbox')
         return redirect("/logIn")
 

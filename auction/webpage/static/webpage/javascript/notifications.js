@@ -29,10 +29,9 @@ notifyChatSocket.onclose = function () {
 notifyChatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data)
     if (data.msg) {
-        tempNotify(data.msg)
+        tempNotify(data.msg, "bid")
 
         if (typeof handleNotification === "function") {
-            console.log("JOE")
             handleNotification(data)
         }
         // if (itemId == "index") {

@@ -7,7 +7,7 @@ verify = Verify()
 
 def logIn(request):
     if request.user.is_authenticated:
-        messages.add_message(request, messages.INFO,
+        messages.add_message(request, messages.ERROR,
                              'Du er allerede logget inn')
         return redirect("/")
 
@@ -17,7 +17,7 @@ def logIn(request):
             if verify.logUserIn(request, data["email"], data["password"]):
                 return redirect('/')
 
-            messages.add_message(request, messages.INFO,
+            messages.add_message(request, messages.ERROR,
                                  'Passord eller brukernavn var feil')
             return render(request,
                           "webpage/logIn.html",

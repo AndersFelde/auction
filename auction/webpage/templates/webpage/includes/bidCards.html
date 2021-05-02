@@ -1,17 +1,31 @@
 {% load humanize %}
-<div class="row justify-content-center row-cols-md-2 row-cols-lg-4 row-cols-sm-1">
-    {% for bid in bids %}
-    <div class="col mt-3">
-        <div class="card h-100 clickable notifi-card item-{{bid.item.id}}">
-            <div id="classHeader" class="card-header">
-                Mitt bud
-            </div>
-            <div class="card-body ">
-                <h5 class="card-title"><a id="item-link" href="/item/{{bid.item.id}}">{{bid.item.name}}</a></h5>
-                <p class="card-text">Mitt bud: <b>{{bid.bid}} NOK <span id="bidPrefix">{{bid.prefix}}</span></b></p>
-            </div>
-            <div class="card-footer text-muted">
-                {{ bid.dato|naturaltime }}
+<div class="accordion mx-auto" id="groupedBids">
+    {% for item, bids in groupedBids.items %}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading{{item}}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{item}}" aria-expanded="false" aria-controls="collapse{{item}}">
+                <b>{{item}}</b>: {% with bids|first as bid %}{{ bid.bid }} NOK
+                <span class="text-muted">| {{ bid.dato|naturaltime }}{% endwith %}</span>
+            </button>
+        </h2>
+        <div id="collapse{{item}}" class="accordion-collapse collapse" aria-labelledby="heading{{item}}" data-bs-parent="#groupedBids">
+            <div class="row justify-content-center row-cols-md-2 row-cols-lg-4 row-cols-sm-1">
+                {% for bid in bids %}
+                <div class="col mt-3">
+                    <div class="card h-100 clickable bid-card item-{{bid.item.id}}">
+                        <div id="classHeader" class="card-header">
+                            Mitt bud
+                        </div>
+                        <div class="card-body ">
+                            <h5 class="card-title"><a id="item-link" href="/item/{{bid.item.id}}">{{bid.item.name}}</a></h5>
+                            <p class="card-text">Mitt bud: <b>{{bid.bid}} NOK <span id="bidPrefix">{{bid.prefix}}</span></b></p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            {{ bid.dato|naturaltime }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

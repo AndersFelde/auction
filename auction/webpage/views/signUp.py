@@ -9,7 +9,7 @@ verify = Verify()
 
 def signUp(request):
     if request.user.is_authenticated:
-        messages.add_message(request, messages.INFO,
+        messages.add_message(request, messages.ERROR,
                              'Du er allerede logget inn')
         return redirect("/")
 
@@ -22,7 +22,7 @@ def signUp(request):
                                                 password=data["password1"])
                 user.save()
             except:
-                messages.add_message(request, messages.INFO,
+                messages.add_message(request, messages.ERROR,
                                      'Det skjedde en feil, prøv igjen')
                 return render(request, "webpage/signUp.html")
 
@@ -36,7 +36,7 @@ def signUp(request):
                                      f'Bruker "{data["email"]}" ble laget')
                 return redirect("/logIn")
 
-        messages.add_message(request, messages.INFO,
+        messages.add_message(request, messages.ERROR,
                              'Passordene sammsvarte ikke')
     return render(request, "webpage/signUp.html")
 

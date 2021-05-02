@@ -7,6 +7,6 @@ $("#signUpForm").submit(function () {
         return true
     }
 
-    alert("Passordene stemte ikke, eller email var feil")
+    tempNotify("Passordene stemte ikke, eller email var feil", "error")
     return false
 })

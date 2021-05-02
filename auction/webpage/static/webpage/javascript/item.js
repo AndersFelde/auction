@@ -13,8 +13,24 @@ const plussBidButton = document.querySelector("#plussBidButton")
 const minusBidButton = document.querySelector("#minusBidButton")
 const submitBidButton = document.querySelector("#submitBid")
 
+const verifyBidButton = document.querySelector("#verifyBidButton")
+const verifyModal = new bootstrap.Modal(
+    document.querySelector("#verifyModal"),
+    { backdrop: "static" }
+)
+const modalNextBid = document.querySelector("#modalNextBid")
+
 function isInteger(value) {
     return /^\d+$/.test(value)
+}
+
+function updateBid(value) {
+    bidInput.value = value
+    modalNextBid.innerHTML = value
+}
+
+verifyBidButton.onclick = function () {
+    verifyModal.show()
 }
 
 submitBidButton.onclick = function () {
@@ -22,11 +38,11 @@ submitBidButton.onclick = function () {
 }
 
 plussBidButton.onclick = function () {
-    bidInput.value = parseInt(bidInput.value) + increase
+    updateBid(parseInt(bidInput.value) + increase)
 }
 
 minusBidButton.onclick = function () {
-    bidInput.value = parseInt(bidInput.value) - increase
+    updateBid(parseInt(bidInput.value) - increase)
 }
 
 chatSocket.onmessage = function (e) {
@@ -34,12 +50,12 @@ chatSocket.onmessage = function (e) {
     console.log(data)
     if (data.bid) {
         bidSpan.innerHTML = data.bid + " NOK"
-        bidInput.value = parseInt(data.bid) + increase
+        updateBid(parseInt(data.bid) + increase)
         if (data.user) {
-            tempNotify("Du la inn bud på: " + data.bid + ",-")
+            tempNotify("Du la inn bud på: " + data.bid + ",-", "bid")
             bidSpan.innerHTML += " (du)"
         } else {
-            tempNotify("Nytt bud på: " + data.bid + ",-")
+            tempNotify("Nytt bud på: " + data.bid + ",-", "bid")
         }
     } else {
         if (data.invalid == true) {
@@ -47,8 +63,8 @@ chatSocket.onmessage = function (e) {
             return
         }
 
-        tempNotify(data.msg)
-        bidInput.value = parseInt(bidSpan.innerHTML) + increase
+        tempNotify(data.msg, "error")
+        updateBid(parseInt(bidSpan.innerHTML) + increase)
     }
 }
 

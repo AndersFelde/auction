@@ -10,7 +10,7 @@ verify = Verify()
 
 def item(request, itemId):
     if not verify.isInt(itemId) or not db.verifyItemId(itemId):
-        messages.add_message(request, messages.INFO, "Id'en du oppga er feil")
+        messages.add_message(request, messages.ERROR, "Id'en du oppga er feil")
         return redirect("/")
 
     if not request.user.is_authenticated:

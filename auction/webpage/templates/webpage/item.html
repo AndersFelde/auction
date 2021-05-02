@@ -21,7 +21,26 @@
         <span class="input-group-text">NOK</span>
         <button type="button" id="plussBidButton" class="btn btn-outline-secondary">+</button>
     </div>
-    <button id="submitBid" type="button" class="btn btn-primary position-relative end-0">Legg til bud</button>
+    <button id="verifyBidButton" type="button" class="btn btn-primary position-relative end-0" data-bs-toggle="modal" data-bs-target="#verifyModal">Legg til bud</button>
 </div>
 
+{% with bids|first as bid %}
+<div class="modal fade" id="verifyModal" tabindex="-1" aria-labelledby="verifyModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verifyModalLabel">{{bid.name}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+            </div>
+            <div class="modal-body">
+                Er du sikker på at du ønsker å by <b><span id="modalNextBid">{{nextBid}}</span> NOK</b>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+                <button id="submitBid" type="button" class="btn btn-primary" data-bs-dismiss="modal">By</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endwith %}
 {% endblock content %}
