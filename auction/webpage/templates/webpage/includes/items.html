@@ -11,7 +11,8 @@
                 <p class="card-text">Pris: <span id="priceSpan">{{item.price}}</span>,-<br><b>Bud: <span id="bidSpan">{{item.bid}}</span></b></p>
             </div>
             <div class="card-footer">
-                <small class="text-muted">{{ item.dato|naturaltime }}</small>
+                <small class="text-muted">Posted: {{ item.dato|naturaltime }}</small><br>
+                <small class="text-muted">Til: {{ item.expiration|date:'d, M-Y H:i' }}</small>
             </div>
         </div>
     </div>

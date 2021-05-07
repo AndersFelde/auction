@@ -13,14 +13,14 @@ const notifiNavSpanList = document.querySelectorAll(".notifiNav")
 
 var notifications
 
-notifyChatSocket.onopen = function () {
-    console.log("joe")
-    notifyChatSocket.send(
-        JSON.stringify({
-            type: "getNotifications",
-        })
-    )
-}
+// notifyChatSocket.onopen = function () {
+//     console.log("joe")
+//     notifyChatSocket.send(
+//         JSON.stringify({
+//             type: "getNotifications",
+//         })
+//     )
+// }
 
 notifyChatSocket.onclose = function () {
     console.error("Chat socket closed unexpectedly")
@@ -34,15 +34,6 @@ notifyChatSocket.onmessage = function (e) {
         if (typeof handleNotification === "function") {
             handleNotification(data)
         }
-        // if (itemId == "index") {
-        //     const itemDiv = document.querySelector("#item-" + data.itemId)
-        //     const bidSpan = itemDiv.querySelector("#bidSpan")
-        //     bidSpan.innerHTML = data.bid + " NOK"
-        // } else if (itemId == "myBids") {
-        //     const itemDiv = document.querySelectorAll(".item-" + data.itemId)[0]
-        //     const bidPrefixSpan = itemDiv.querySelector("#bidPrefix")
-        //     bidPrefixSpan.innerHTML = ""
-        // }
 
         updateNotifications(notifications + 1)
     } else {

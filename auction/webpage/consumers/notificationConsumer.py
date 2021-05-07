@@ -24,6 +24,9 @@ class NotificationConsumer(AsyncWebsocketConsumer):
             print("user joined " + self.roomGroupId)
             await self.accept()
 
+            notifications = await self.getNotificationCount()
+            await self.send(text_data=json.dumps({'count': notifications}))
+
     async def disconnect(self, _):
         await self.channel_layer.group_discard(self.roomGroupId,
                                                self.channel_name)
@@ -36,14 +39,12 @@ class NotificationConsumer(AsyncWebsocketConsumer):
         if not self.verifyUser():
             return
 
-        text_data_json = json.loads(text_data)
-        type = text_data_json['type']
+        dataJson = json.loads(text_data)
 
-        if type == "getNotifications":
-            notifications = await self.getNotificationCount()
-            print(notifications)
-
-            await self.send(text_data=json.dumps({'count': notifications}))
+        if dataJson["id"] == True:
+            await self.readAllNotifications()
+        else:
+            await self.readNotification(dataJson["id"])
 
     async def notifyBid(self, event):
         if self.verifyUser():
@@ -81,3 +82,7 @@ class NotificationConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def readNotification(self, itemId):
         self.db.readNotification(self.user.id, itemId)
+
+    @database_sync_to_async
+    def readAllNotifications(self):
+        self.db.readAllNotifications(self.user.id)

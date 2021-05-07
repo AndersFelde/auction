@@ -61,11 +61,18 @@ class Database():
         notifi = Notification(item=item, user=user, bid=bid)
         notifi.save()
 
+    def readAllNotifications(self, userId):
+        notifications = Notification.objects.filter(user__id=userId,
+                                                    read=False)
+
+        for notifi in notifications:
+            notifi.read = True
+            notifi.save()
+
     def readNotification(self, userId, itemId):
         notifications = Notification.objects.filter(user__id=userId,
                                                     item__id=itemId,
                                                     read=False)
-        print(notifications)
 
         for notifi in notifications:
             notifi.read = True

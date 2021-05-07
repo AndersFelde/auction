@@ -4,9 +4,6 @@ const tempToastHeader = tempToastContainer.querySelector("#toastHeader")
 const tempToast = new bootstrap.Toast(
     tempToastContainer.querySelectorAll(".toast")[0]
 )
-const notificationSound = new Audio(
-    "/static/webpage/audio/iphone_notification.mp3"
-)
 var prevType
 
 function tempNotify(msg, type) {
