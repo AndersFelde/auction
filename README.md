@@ -118,8 +118,6 @@
 
 #### Verfisering
 
-![alt text](dokumentasjon/budVarsel.gif "Title")
-
 -   Verfisering skjer gjennom django sitt system, så burde være relativt sikkert
 -   Alle consumere verifiserer alt backend
 -   Sider blir sjekket om du er logget inn, og evt redirected hvis du ikke skal være der
