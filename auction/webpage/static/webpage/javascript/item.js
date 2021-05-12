@@ -90,3 +90,43 @@ bidInput.onkeyup = function (e) {
         submitBid(bidInput.value)
     }
 }
+
+const timeSpan = document.querySelector("#time")
+var time = timeSpan.innerHTML
+var expireTime = new Date(time).getTime()
+
+// Update the count down every 1 second
+var x = setInterval(function () {
+    // Get today's date and time
+    var now = new Date().getTime()
+
+    // Find the distance between now and the count down date
+    var distance = expireTime - now
+
+    // Time calculations for days, hours, minutes and seconds
+    const timePrefix = ["d", "h", "m", "s"]
+    var time = []
+    // [days, hours, minutes, seconds]
+    time.push(Math.floor(distance / (1000 * 60 * 60 * 24)))
+    time.push(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))
+    time.push(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)))
+    time.push(Math.floor((distance % (1000 * 60)) / 1000))
+
+    time = time.map((time, index) => {
+        if (time == 0) {
+            return ""
+        }
+        return String(time) + timePrefix[index] + " "
+    })
+
+    // Display the result in the element with id="demo"
+    timeSpan.innerHTML = time.join("")
+
+    // If the count down is finished, write some text
+    if (distance < 0) {
+        clearInterval(x)
+        timeSpan.innerHTML = "Ferdig"
+    }
+}, 1000)
+
+// function updateTime(newTime) {}

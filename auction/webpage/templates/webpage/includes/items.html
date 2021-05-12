@@ -12,7 +12,7 @@
             </div>
             <div class="card-footer">
                 <small class="text-muted">Posted: {{ item.dato|naturaltime }}</small><br>
-                <small class="text-muted">Til: {{ item.expiration|date:'d, M-Y H:i' }}</small>
+                <small class="text-muted">Til: <span id="time">{{ item.expiration|date:'M, d Y H:i' }}</span></small>
             </div>
         </div>
     </div>
